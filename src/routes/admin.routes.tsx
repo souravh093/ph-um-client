@@ -1,9 +1,13 @@
+import AcademicDepartment from "../pages/admin/AcademicManagement/AcademicDepartment";
+import AcademicFaculty from "../pages/admin/AcademicManagement/AcademicFaculty";
 import AcademicSemester from "../pages/admin/AcademicManagement/AcademicSemester";
+import CreateAcademicDepartment from "../pages/admin/AcademicManagement/CreateAcademicDepartment";
+import CreateAcademicFaculty from "../pages/admin/AcademicManagement/CreateAcademicFaculty";
+import CreateAcademicSemester from "../pages/admin/AcademicManagement/CreateAcademicSemester";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
-
 
 // type TRoute = {
 //   path: string;
@@ -26,9 +30,34 @@ export const adminPaths = [
     name: "Academic Management",
     children: [
       {
+        name: "Create A. Semester",
+        path: "create-academic-semester",
+        element: <CreateAcademicSemester />,
+      },
+      {
         name: "Academic Semester",
         path: "academic-semester",
         element: <AcademicSemester />,
+      },
+      {
+        name: "Create A. Department",
+        path: "create-academic-semester",
+        element: <CreateAcademicDepartment />,
+      },
+      {
+        name: "Academic Department",
+        path: "academic-department",
+        element: <AcademicDepartment />,
+      },
+      {
+        name: "Create A. Faculty",
+        path: "create-academic-faculty",
+        element: <CreateAcademicFaculty />,
+      },
+      {
+        name: "Academic Faculty",
+        path: "academic-faculty",
+        element: <AcademicFaculty />,
       },
     ],
   },
@@ -82,7 +111,7 @@ export const adminPaths = [
 //       });
 
 //       console.log(`${item.path}`);
-      
+
 //     }
 
 //     if (item.children) {
