@@ -1,9 +1,71 @@
-import React from 'react'
+import { useGetAllAcademicFacultyQuery } from "../../../redux/features/admin/academicFaculty.api";
+import { TAcademicFacultyDataType } from "../../../types/academicManagement.type";
+import { Button, Table, TableColumnsType, TableProps } from "antd";
 
 const AcademicFaculty = () => {
-  return (
-    <div>AcademicFaculty</div>
-  )
-}
+  const { data: facultyData, isFetching } =
+    useGetAllAcademicFacultyQuery(undefined);
+  const tableData = facultyData?.data?.map(
+    ({ _id, name, createdAt }: Partial<TAcademicFacultyDataType>) => ({
+      key: _id,
+      _id,
+      name,
+      createdAt:
+        createdAt &&
+        new Date(createdAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+    })
+  );
+  console.log(facultyData);
+  type TAcademicFacultyTableData = Pick<
+    TAcademicFacultyDataType,
+    "name" | "_id" | "createdAt"
+  >;
+  const columns: TableColumnsType<TAcademicFacultyTableData> = [
+    {
+      title: "Created Date",
+      dataIndex: "createdAt",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+    },
+    {
+      title: "Action",
+      key: "X",
+      render: () => {
+        return (
+          <div style={{ display: "flex", justifyItems: "center", gap: "5px" }}>
+            <Button>Update</Button>
+            <Button style={{ backgroundColor: "red", color: "white" }}>
+              Delete
+            </Button>
+          </div>
+        );
+      },
+    },
+  ];
 
-export default AcademicFaculty
+  const onChange: TableProps<TAcademicFacultyTableData>["onChange"] = (
+    pagination,
+    filters,
+    sorter,
+    extra
+  ) => {
+    console.log("params", pagination, filters, sorter, extra);
+  };
+
+  return (
+    <Table
+      loading={isFetching}
+      columns={columns}
+      dataSource={tableData}
+      onChange={onChange}
+    />
+  );
+};
+
+export default AcademicFaculty;

@@ -10,3 +10,12 @@ export interface TAcademicSemesterDataType {
   updatedAt: string;
   __v: number;
 }
+
+export interface TAcademicFacultyDataType  {
+  key: React.Key;
+  _id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}

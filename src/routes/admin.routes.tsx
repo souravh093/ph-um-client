@@ -41,7 +41,7 @@ export const adminPaths = [
       },
       {
         name: "Create A. Department",
-        path: "create-academic-semester",
+        path: "create-academic-department",
         element: <CreateAcademicDepartment />,
       },
       {
