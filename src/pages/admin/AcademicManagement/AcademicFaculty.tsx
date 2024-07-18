@@ -1,12 +1,18 @@
-import { useGetAllAcademicFacultyQuery } from "../../../redux/features/admin/academicFaculty.api";
+import { useGetAllAcademicFacultiesQuery } from "../../../redux/features/admin/academicManagement.api";
 import { TAcademicFacultyDataType } from "../../../types/academicManagement.type";
 import { Button, Table, TableColumnsType, TableProps } from "antd";
 
 const AcademicFaculty = () => {
   const { data: facultyData, isFetching } =
-    useGetAllAcademicFacultyQuery(undefined);
-  const tableData = facultyData?.data?.map(
-    ({ _id, name, createdAt }: Partial<TAcademicFacultyDataType>) => ({
+    useGetAllAcademicFacultiesQuery(undefined);
+
+  type TAcademicFacultyTableData = Pick<
+    TAcademicFacultyDataType,
+    "name" | "_id" | "createdAt"
+  >;
+
+  const tableData = facultyData?.data?.data?.map(
+    ({ _id, name, createdAt }) => ({
       key: _id,
       _id,
       name,
@@ -19,11 +25,7 @@ const AcademicFaculty = () => {
         }),
     })
   );
-  console.log(facultyData);
-  type TAcademicFacultyTableData = Pick<
-    TAcademicFacultyDataType,
-    "name" | "_id" | "createdAt"
-  >;
+
   const columns: TableColumnsType<TAcademicFacultyTableData> = [
     {
       title: "Created Date",

@@ -1,5 +1,9 @@
 import { TQueryParam, TResponseRedux } from "../../../types";
-import { TAcademicSemesterDataType } from "../../../types/academicManagement.type";
+import {
+  TAcademicDepartmentDataType,
+  TAcademicFacultyDataType,
+  TAcademicSemesterDataType,
+} from "../../../types/academicManagement.type";
 import { baseApi } from "../../api/baseApi";
 
 const academicManagement = baseApi.injectEndpoints({
@@ -35,8 +39,59 @@ const academicManagement = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    addAcademicFaculty: builder.mutation({
+      query: (data) => ({
+        url: "/academic-faculties/create-academic-faculty",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["AcademicFaculty"],
+    }),
+    getAllAcademicFaculties: builder.query({
+      query: () => ({
+        url: "/academic-faculties",
+        method: "GET",
+      }),
+      transformResponse: (
+        response: TResponseRedux<TAcademicFacultyDataType[]>
+      ) => {
+        return {
+          data: response,
+        };
+      },
+      providesTags: ["AcademicFaculty"],
+    }),
+    addAcademicDepartment: builder.mutation({
+      query: (data) => ({
+        url: "/academic-departments/create-academic-department",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    getAllAcademicDepartments: builder.query({
+      query: () => {
+        return {
+          url: "/academic-departments",
+          method: "GET",
+        };
+      },
+      transformResponse: (
+        response: TResponseRedux<TAcademicDepartmentDataType>
+      ) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetAllSemestersQuery, useAddAcademicSemesterMutation } =
-  academicManagement;
+export const {
+  useGetAllSemestersQuery,
+  useAddAcademicSemesterMutation,
+  useAddAcademicFacultyMutation,
+  useGetAllAcademicFacultiesQuery,
+  useAddAcademicDepartmentMutation,
+  useGetAllAcademicDepartmentsQuery,
+} = academicManagement;

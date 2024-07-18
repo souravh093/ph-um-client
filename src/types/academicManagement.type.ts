@@ -19,3 +19,12 @@ export interface TAcademicFacultyDataType  {
   updatedAt: string;
   __v: number;
 }
+
+export interface TAcademicDepartmentDataType {
+  key: React.Key;
+  _id: string;
+  name: string;
+  academicFaculty: TAcademicFacultyDataType;
+  createdAt: string;
+  updatedAt: string;
+}

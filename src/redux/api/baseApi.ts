@@ -32,8 +32,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
   let result = await baseQuery(args, api, extraOptions);
 
   if (result?.error?.status === 404) {
-    toast.error(result?.error?.data?.message);
-    return result;
+    toast.error((result?.error?.data as any)?.message);
   }
 
   if (result?.error?.status === 401) {
@@ -45,7 +44,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
     const data = await res.json();
 
-    console.log(data);
 
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
