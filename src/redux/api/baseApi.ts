@@ -44,7 +44,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 
     const data = await res.json();
 
-
     if (data?.data?.accessToken) {
       const user = (api.getState() as RootState).auth.user;
 
@@ -55,7 +54,7 @@ const baseQueryWithRefreshToken: BaseQueryFn<
         })
       );
 
-      result = await baseQuery(args, api, extraOptions);
+      return (result = await baseQuery(args, api, extraOptions));
     } else {
       api.dispatch(logout());
     }
@@ -67,6 +66,6 @@ const baseQueryWithRefreshToken: BaseQueryFn<
 export const baseApi = createApi({
   reducerPath: "baseApi",
   baseQuery: baseQueryWithRefreshToken,
-  tagTypes: ['AcademicFaculty'],
+  tagTypes: ["AcademicFaculty"],
   endpoints: () => ({}),
 });
