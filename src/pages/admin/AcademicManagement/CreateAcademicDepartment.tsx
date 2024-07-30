@@ -21,7 +21,7 @@ const CreateAcademicDepartment = () => {
         value: item._id || "",
       };
     }) || [];
-  console.log(academicFaculty);
+
   const onSubmit = async (data: Partial<TAcademicDepartmentDataType>) => {
     const res = await addAcademicDepartment(data).unwrap();
 
