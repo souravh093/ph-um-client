@@ -27,4 +27,5 @@ export interface TAcademicDepartmentDataType {
   academicFaculty: TAcademicFacultyDataType;
   createdAt: string;
   updatedAt: string;
+  __v: number;
 }

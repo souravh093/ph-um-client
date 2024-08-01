@@ -74,15 +74,7 @@ const academicManagement = baseApi.injectEndpoints({
           url: "/academic-departments",
           method: "GET",
         };
-      },
-      transformResponse: (
-        response: TResponseRedux<TAcademicDepartmentDataType>
-      ) => {
-        return {
-          data: response.data,
-          meta: response.meta,
-        };
-      },
+      }
     }),
   }),
 });
@@ -94,4 +86,4 @@ export const {
   useGetAllAcademicFacultiesQuery,
   useAddAcademicDepartmentMutation,
   useGetAllAcademicDepartmentsQuery,
-} = academicManagement;
+} = academicManagement; 

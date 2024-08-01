@@ -5,6 +5,7 @@ import { useGetAllAcademicDepartmentsQuery } from "../../../redux/features/admin
 const AcademicDepartment = () => {
   const { data: departmentData, isFetching } =
     useGetAllAcademicDepartmentsQuery(undefined);
+
   const tableData = departmentData?.data?.map(
     ({
       _id,
@@ -25,7 +26,6 @@ const AcademicDepartment = () => {
         }),
     })
   );
-
 
   type TAcademicDepartmentTableData = Pick<
     TAcademicDepartmentDataType,

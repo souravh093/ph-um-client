@@ -10,6 +10,7 @@ import {
   useGetAllAcademicDepartmentsQuery,
   useGetAllSemestersQuery,
 } from "../../../redux/features/admin/academicManagement.api";
+import { TAcademicDepartmentDataType } from "../../../types/academicManagement.type";
 
 const studentDummyData = {
   password: "student123",
@@ -65,11 +66,10 @@ const CreateStudent = () => {
     useGetAllAcademicDepartmentsQuery(undefined);
 
   const departmentOptions =
-    aDepartmentData?.data.map((item) => ({
+    aDepartmentData?.data.map((item: Partial<TAcademicDepartmentDataType>) => ({
       value: item._id || "",
       label: item.name || "",
     })) || [];
-
 
   const [addStudent] = useAddStudentMutation();
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
