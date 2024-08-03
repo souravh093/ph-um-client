@@ -1,8 +1,8 @@
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
 import { useAddStudentMutation } from "../../../redux/features/admin/userManagementApi";
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PHSelect from "../../../components/form/PHSelect";
 import { bloodGroupOptions, genderOptions } from "../../../constant/golobal";
 import PHDatePicker from "../../../components/form/PHDatePicker";
@@ -12,45 +12,6 @@ import {
 } from "../../../redux/features/admin/academicManagement.api";
 import { TAcademicDepartmentDataType } from "../../../types/academicManagement.type";
 
-const studentDummyData = {
-  password: "student123",
-  student: {
-    name: {
-      firstName: "I am ",
-      middleName: "Student",
-      lastName: "Number 1",
-    },
-    gender: "male",
-    dateOfBirth: "1990-01-01",
-    bloogGroup: "A+",
-
-    email: "student2@gmail.com",
-    contactNo: "1235678",
-    emergencyContactNo: "987-654-3210",
-    presentAddress: "123 Main St, Cityville",
-    permanentAddress: "456 Oak St, Townsville",
-
-    guardian: {
-      fatherName: "James Doe",
-      fatherOccupation: "Engineer",
-      fatherContactNo: "111-222-3333",
-      motherName: "Mary Doe",
-      motherOccupation: "Teacher",
-      motherContactNo: "444-555-6666",
-    },
-
-    localGuardian: {
-      name: "Alice Johnson",
-      occupation: "Doctor",
-      contactNo: "777-888-9999",
-      address: "789 Pine St, Villageton",
-    },
-
-    admissionSemester: "65b0104110b74fcbd7a25d92",
-    academicDepartment: "65b00fb010b74fcbd7a25d8e",
-  },
-};
-
 const CreateStudent = () => {
   const { data: semesterData, isLoading: sIsLoading } =
     useGetAllSemestersQuery(undefined);
@@ -59,11 +20,10 @@ const CreateStudent = () => {
     semesterData?.data?.map((item) => ({
       value: item._id || "",
       label: `${item.name} ${item.year}` || "",
-      disable: sIsLoading,
     })) || [];
 
   const { data: aDepartmentData, isLoading: aDIsLoading } =
-    useGetAllAcademicDepartmentsQuery(undefined);
+    useGetAllAcademicDepartmentsQuery(undefined, { skip: sIsLoading }); // COOL
 
   const departmentOptions =
     aDepartmentData?.data.map((item: Partial<TAcademicDepartmentDataType>) => ({
@@ -72,14 +32,22 @@ const CreateStudent = () => {
     })) || [];
 
   const [addStudent] = useAddStudentMutation();
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const studentData = {
+      password: "Passw0rd!",
+      student: data,
+    };
     console.log(data);
-    // const formData = new FormData();
+    const formData = new FormData();
 
-    // formData.append("data", JSON.stringify(data));
+    formData.append("data", JSON.stringify(studentData)); 
+    formData.append("file", data?.image);
+
+    const res = await addStudent(formData);
+    console.log(res);
 
     // This is for development just form checking
-    // console.log(Object.fromEntries(formData))
+    // console.log(Object.fromEntries(formData)) // COOL
   };
   return (
     <Row>
@@ -107,6 +75,21 @@ const CreateStudent = () => {
                 name="bloogGroup"
                 label="Blood Group"
                 options={bloodGroupOptions}
+              />
+            </Col>
+            <Col span={24} lg={{ span: 8 }} md={{ span: 12 }}>
+              <Controller
+                name="image"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Picture">
+                    <Input
+                      value={value?.fileName}
+                      type="file"
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
               />
             </Col>
           </Row>
@@ -227,6 +210,7 @@ const CreateStudent = () => {
                 options={semesterOptions}
                 label="Admission Semester"
                 name="admissionSemester"
+                disable={sIsLoading}
               />
             </Col>
             <Col span={24} lg={{ span: 8 }} md={{ span: 12 }}>
@@ -234,6 +218,7 @@ const CreateStudent = () => {
                 options={departmentOptions}
                 label="Academic Department"
                 name="academicDepartment"
+                disable={sIsLoading}
               />
             </Col>
           </Row>

@@ -6,6 +6,7 @@ type THSelectProps = {
   name: string;
   defaultValues?: string;
   isLoading?: boolean;
+  disable?: boolean;
   options: {
     value: string;
     label: string;
@@ -13,7 +14,14 @@ type THSelectProps = {
   }[];
 };
 
-const PHSelect = ({ defaultValues, name, label, options, isLoading }: THSelectProps) => {
+const PHSelect = ({
+  defaultValues,
+  name,
+  label,
+  options,
+  isLoading,
+  disable,
+}: THSelectProps) => {
   return (
     <Controller
       name={name}
@@ -26,6 +34,7 @@ const PHSelect = ({ defaultValues, name, label, options, isLoading }: THSelectPr
             options={options}
             size="large"
             loading={isLoading}
+            disabled={disable}
           />
           {error && <small style={{ color: "red" }}>{error.message}</small>}
         </Form.Item>

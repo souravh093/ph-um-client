@@ -23,7 +23,7 @@ export const genderOptions = genders.map((item) => ({
 }));
 
 export const bloodGroupOptions = bloodGroups.map((item) => ({
-  value: item.toLowerCase(),
+  value: item,
   label: item,
 }));
 
