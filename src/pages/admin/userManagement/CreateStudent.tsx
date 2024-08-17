@@ -11,6 +11,7 @@ import {
   useGetAllSemestersQuery,
 } from "../../../redux/features/admin/academicManagement.api";
 import { TAcademicDepartmentDataType } from "../../../types/academicManagement.type";
+import { toast } from "sonner";
 
 const CreateStudent = () => {
   const { data: semesterData, isLoading: sIsLoading } =
@@ -44,6 +45,14 @@ const CreateStudent = () => {
     formData.append("file", data?.image);
 
     const res = await addStudent(formData);
+
+    try {
+      if(res.data?.success) {
+        toast.success(res?.data?.message)
+      }
+    } catch (error) {
+      toast.error("something went wrong")
+    }
     console.log(res);
 
     // This is for development just form checking
