@@ -1,17 +1,41 @@
-import { Button, Space, Table } from "antd";
-import type { TableColumnsType, TableProps } from "antd";
+import { Button, message, Pagination, Popconfirm, Space, Table } from "antd";
+import type { PopconfirmProps, TableColumnsType, TableProps } from "antd";
 import { useState } from "react";
 import { TQueryParam, TStudent } from "../../../types";
 import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagementApi";
-export type TTableData = Pick<TStudent, "fullName" | "id">;
+import { Link } from "react-router-dom";
+export type TTableData = Pick<
+  TStudent,
+  "fullName" | "id" | "email" | "contactNo"
+>;
 const StudentData = () => {
-  const [params, setParams] = useState<TQueryParam[] | undefined>([]);
-  const { data: studentData, isFetching } = useGetAllStudentsQuery(params);
+  const [page, setPage] = useState(1);
+  const [params, setParams] = useState<TQueryParam[]>([]);
+  const { data: studentData, isFetching } = useGetAllStudentsQuery([
+    { name: "page", value: page },
+    { name: "sort", value: "id" },
+    ...params,
+  ]);
 
-  const tableData = studentData?.data?.map(({ id, fullName }) => ({
-    id,
-    fullName,
-  }));
+  const tableData = studentData?.data?.map(
+    ({ _id, id, fullName, email, contactNo }) => ({
+      key: _id,
+      id,
+      fullName,
+      email,
+      contactNo,
+    })
+  );
+
+  const confirm: PopconfirmProps["onConfirm"] = () => {
+    message.success("Block this Student");
+  };
+
+  const cancel: PopconfirmProps["onCancel"] = () => {
+    message.success("Cancel to Block Student");
+  };
+
+  const metaData = studentData?.meta;
   const columns: TableColumnsType<TTableData> = [
     {
       title: "Name",
@@ -24,20 +48,42 @@ const StudentData = () => {
       dataIndex: "id",
     },
     {
+      title: "Email",
+      key: "email",
+      dataIndex: "email",
+    },
+    {
+      title: "Contact No",
+      key: "contactNo",
+      dataIndex: "contactNo",
+    },
+    {
       title: "Action",
-      key: "X",
-      render: () => {
+      key: "x",
+      render: (item) => {
+        console.log(item);
         return (
           <Space
             style={{ display: "flex", justifyItems: "center", gap: "5px" }}
           >
-            <Button>Details</Button>
+            <Link to={`/admin/student-data/${item?.key}`}>
+              <Button>Details</Button>
+            </Link>
             <Button style={{ backgroundColor: "red", color: "white" }}>
               Update
             </Button>
-            <Button style={{ backgroundColor: "red", color: "white" }}>
-              Block
-            </Button>
+            <Popconfirm
+              title="Block Student"
+              description="Are you sure to block this student"
+              onConfirm={confirm}
+              onCancel={cancel}
+              okText="Block"
+              cancelText="No"
+            >
+              <Button style={{ backgroundColor: "red", color: "white" }}>
+                Block
+              </Button>
+            </Popconfirm>
           </Space>
         );
       },
@@ -67,12 +113,25 @@ const StudentData = () => {
   };
 
   return (
-    <Table
-      loading={isFetching}
-      columns={columns}
-      dataSource={tableData}
-      onChange={onChange}
-    />
+    <>
+      <Table
+        loading={isFetching}
+        columns={columns}
+        dataSource={tableData}
+        onChange={onChange}
+        pagination={false}
+      />
+
+      <div style={{ marginTop: "10px" }}>
+        <Pagination
+          align="end"
+          current={page}
+          pageSize={metaData?.limit}
+          onChange={(value) => setPage(value)}
+          total={metaData?.total}
+        />
+      </div>
+    </>
   );
 };
 
