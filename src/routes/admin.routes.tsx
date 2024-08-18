@@ -5,12 +5,18 @@ import CreateAcademicDepartment from "../pages/admin/AcademicManagement/CreateAc
 import CreateAcademicFaculty from "../pages/admin/AcademicManagement/CreateAcademicFaculty";
 import CreateAcademicSemester from "../pages/admin/AcademicManagement/CreateAcademicSemester";
 import AdminDashboard from "../pages/admin/AdminDashboard";
+import AllRegisteredSemester from "../pages/admin/CourseManagement/AllRegisteredSemester";
+import Course from "../pages/admin/CourseManagement/Course";
+import CreateCourse from "../pages/admin/CourseManagement/CreateCourse";
+import OfferCourse from "../pages/admin/CourseManagement/OfferCourse";
+import RegisteredSemesters from "../pages/admin/CourseManagement/RegisteredSemesters";
 import CreateAdmin from "../pages/admin/userManagement/CreateAdmin";
 import CreateFaculty from "../pages/admin/userManagement/CreateFaculty";
 import CreateStudent from "../pages/admin/userManagement/CreateStudent";
 import StudentData from "../pages/admin/userManagement/StudentData";
 import StudentDetails from "../pages/admin/userManagement/StudentDetails";
 import StudentUpdate from "../pages/admin/userManagement/StudentUpdate";
+import OfferedCourse from "../pages/faculty/OfferedCourse";
 
 // type TRoute = {
 //   path: string;
@@ -97,6 +103,41 @@ export const adminPaths = [
       },
     ],
   },
+  {
+    name: "Course Management",
+    children: [
+      {
+        name: "Semester Registration",
+        path: "semester-registration",
+        element: <RegisteredSemesters />
+      },
+      {
+        name: "Registered Semester",
+        path: "registered-semester",
+        element: <AllRegisteredSemester />
+      },
+      {
+        name: "Create Course",
+        path: "create-course",
+        element: <CreateCourse />
+      },
+      {
+        name: "Course",
+        path: "course",
+        element: <Course />
+      },
+      {
+        name: "Offer Course",
+        path: "offer-course",
+        element: <OfferCourse />
+      },
+      {
+        name: "Offered Course",
+        path: "offered-course",
+        element: <OfferedCourse />
+      }
+    ]
+  }
 ];
 
 // export const adminRoutes = adminPaths.reduce((acc: TRoute[], item) => {

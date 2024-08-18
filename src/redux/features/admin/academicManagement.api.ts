@@ -1,6 +1,5 @@
 import { TQueryParam, TResponseRedux } from "../../../types";
 import {
-  TAcademicDepartmentDataType,
   TAcademicFacultyDataType,
   TAcademicSemesterDataType,
 } from "../../../types/academicManagement.type";
