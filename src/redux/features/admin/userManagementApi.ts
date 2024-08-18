@@ -33,6 +33,11 @@ const userManagementApi = baseApi.injectEndpoints({
         body: data,
       }),
     }),
+    updateStudent: builder.mutation({
+      query: (data) => ({
+        url: "/"
+      })
+    }),
     getSingleStudent: builder.query({
       query: (id) => {
         return {

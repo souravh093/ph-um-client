@@ -69,9 +69,11 @@ const StudentData = () => {
             <Link to={`/admin/student-data/${item?.key}`}>
               <Button>Details</Button>
             </Link>
-            <Button style={{ backgroundColor: "red", color: "white" }}>
-              Update
-            </Button>
+            <Link to={`/admin/student-update/${item?.key}`}>
+              <Button style={{ backgroundColor: "red", color: "white" }}>
+                Update
+              </Button>
+            </Link>
             <Popconfirm
               title="Block Student"
               description="Are you sure to block this student"

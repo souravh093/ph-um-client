@@ -10,6 +10,7 @@ import CreateFaculty from "../pages/admin/userManagement/CreateFaculty";
 import CreateStudent from "../pages/admin/userManagement/CreateStudent";
 import StudentData from "../pages/admin/userManagement/StudentData";
 import StudentDetails from "../pages/admin/userManagement/StudentDetails";
+import StudentUpdate from "../pages/admin/userManagement/StudentUpdate";
 
 // type TRoute = {
 //   path: string;
@@ -79,6 +80,10 @@ export const adminPaths = [
       {
         path: "student-data/:studentId",
         element: <StudentDetails />
+      },
+      {
+        path: "student-update/:studentId",
+        element: <StudentUpdate />
       },
       {
         name: "Create Admin",
