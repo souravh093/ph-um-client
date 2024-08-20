@@ -18,7 +18,7 @@ export interface TAcademicFacultyDataType  {
   createdAt: string;
   updatedAt: string;
   __v: number;
-}
+} []
 
 export interface TAcademicDepartmentDataType {
   key: React.Key;

@@ -61,7 +61,6 @@ const StudentData = () => {
       title: "Action",
       key: "x",
       render: (item) => {
-        console.log(item);
         return (
           <Space
             style={{ display: "flex", justifyItems: "center", gap: "5px" }}

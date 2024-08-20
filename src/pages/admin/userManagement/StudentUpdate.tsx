@@ -38,7 +38,6 @@ const StudentUpdate = () => {
       password: "Passw0rd!",
       student: data,
     };
-    console.log(data);
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(studentData)); 
@@ -53,7 +52,6 @@ const StudentUpdate = () => {
     } catch (error) {
       toast.error("something went wrong")
     }
-    console.log(res);
   };
   return (
     <Row>

@@ -38,7 +38,7 @@ const CreateStudent = () => {
       password: "Passw0rd!",
       student: data,
     };
-    console.log(data);
+
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(studentData)); 
@@ -53,7 +53,7 @@ const CreateStudent = () => {
     } catch (error) {
       toast.error("something went wrong")
     }
-    console.log(res);
+
 
     // This is for development just form checking
     // console.log(Object.fromEntries(formData)) // COOL

@@ -1,24 +1,31 @@
 import moment from "moment";
-import { useGetAllRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement.api";
+import {
+  useGetAllRegisteredSemestersQuery,
+  useUpdateRegisteredSemesterMutation,
+} from "../../../redux/features/admin/courseManagement.api";
 import { TSemester } from "../../../types";
-import { Button, Table, TableColumnsType, Tag } from "antd";
+import { Button, Dropdown, message, Table, TableColumnsType, Tag } from "antd";
+import { useState } from "react";
+import { toast } from "sonner";
 
-const item = [
+const items = [
   {
     label: "Upcoming",
-    key: "UPCOMING"
+    key: "UPCOMING",
   },
   {
     label: "Ongoing",
-    key: "ONGOING"
+    key: "ONGOING",
   },
   {
     label: "Ended",
-    key: "ENDED"
-  }
-]
+    key: "ENDED",
+  },
+];
 
 const AllRegisteredSemester = () => {
+  const [updateSemesterRegistration] = useUpdateRegisteredSemesterMutation();
+  const [semesterId, setSemesterId] = useState("");
   const { data: semesterData, isFetching } =
     useGetAllRegisteredSemestersQuery(undefined);
 
@@ -51,6 +58,33 @@ const AllRegisteredSemester = () => {
         }),
     })
   );
+
+  const handleStatusUpdate = async (data) => {
+    const toastId = toast.loading("Updating...");
+    const updateData = {
+      id: semesterId,
+      data: {
+        status: data.key,
+      },
+    };
+
+    try {
+      const res = await updateSemesterRegistration(updateData).unwrap();
+
+      console.log(res);
+
+      if (res.success) {
+        toast.error(res.message, { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error.data.message, { id: toastId });
+    }
+  };
+
+  const menuProps = {
+    items,
+    onClick: handleStatusUpdate,
+  };
 
   const columns: TableColumnsType<TRegisteredSemesterTableData> = [
     {
@@ -90,14 +124,11 @@ const AllRegisteredSemester = () => {
     {
       title: "Action",
       key: "X",
-      render: () => {
+      render: (item) => {
         return (
-          <div style={{ display: "flex", justifyItems: "center", gap: "5px" }}>
-            <Button>Update</Button>
-            <Button style={{ backgroundColor: "red", color: "white" }}>
-              Delete
-            </Button>
-          </div>
+          <Dropdown menu={menuProps} trigger={["click"]}>
+            <Button onClick={() => setSemesterId(item.key)}>Update</Button>
+          </Dropdown>
         );
       },
     },

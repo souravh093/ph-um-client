@@ -31,8 +31,6 @@ const RegisteredSemester = () => {
       maxCredit: Number(data.maxCredit),
     };
 
-    console.log(data);
-
     try {
       const res = await addRegisteredSemester(registerSemesterData).unwrap();
       if (res.error) {

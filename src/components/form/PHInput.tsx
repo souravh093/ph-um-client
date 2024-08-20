@@ -6,9 +6,10 @@ type TInput = {
   name: string;
   label: string;
   placeholder?: string;
+  disabled?: boolean;
 };
 
-const PHInput = ({ type, name, label, placeholder }: TInput) => {
+const PHInput = ({ type, name, label, placeholder, disabled }: TInput) => {
   return (
     <div style={{ marginBottom: "20px" }}>
       <Controller
@@ -21,6 +22,7 @@ const PHInput = ({ type, name, label, placeholder }: TInput) => {
               type={type}
               id={name}
               size="large"
+              disabled={disabled}
             />
             {error && <small style={{ color: "red" }}>{error.message}</small>}
           </Form.Item>
